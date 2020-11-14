@@ -12,6 +12,7 @@ public class WeightedQuickUnion {
 	public WeightedQuickUnion(int n) {
 		arr = new int[n];
 		index = new int[n];
+		size = new int[n];
 		for(int i=0; i<n; i++) {
 			arr[i] = i;
 			index[i] = i;
@@ -20,8 +21,10 @@ public class WeightedQuickUnion {
 	}
 	
 	public void showArray() {
-		System.out.println("index q:"+Arrays.toString(index));
-		System.out.println("arr[q] :"+Arrays.toString(arr));
+		System.out.println("index q :"+Arrays.toString(index));
+		System.out.println("arr[q]  :"+Arrays.toString(arr));
+		System.out.println("Size[q] :"+Arrays.toString(size));
+
 	}
 
 	public int root(int q) {
@@ -36,7 +39,15 @@ public class WeightedQuickUnion {
 		System.out.println("root("+q+") : "+root(q));
 		
 		if(arr[root(p)] != root(q)) {
-			arr[root(p)] = root(q);
+			if(size[root(p)] < size[root(q)]) {
+				arr[root(p)] = root(q);
+				size[q] += size[p];
+			} else {
+				arr[root(q)] = root(p);
+				size[p] += size[q];
+			}
+				
+			
 		} else {
 			System.out.println(p+" and "+q+" are already connected.");
 		}
